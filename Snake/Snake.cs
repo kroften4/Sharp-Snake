@@ -45,26 +45,26 @@ namespace Snake
         }
         public Direction direction;
 
-        public Snake(LinkedList<Vector2D> tail, Direction direction)
+        public Snake(LinkedList<Vector2D> snakeTiles, Direction direction)
         {
-            this.snakeTiles = tail;
+            this.snakeTiles = snakeTiles;
             this.direction = direction;
         }
-        public Snake(LinkedList<Vector2D> tail)
+        public Snake(LinkedList<Vector2D> snakeTiles)
         {
-            this.snakeTiles = tail;
+            this.snakeTiles = snakeTiles;
             direction = Direction.Right;
         }
 
         public static Snake Create(Vector2D headPos)
         {
-            LinkedList<Vector2D> newTail = new LinkedList<Vector2D>();
+            LinkedList<Vector2D> snakeTiles = new LinkedList<Vector2D>();
             for (int x = headPos.x; headPos.x - x < InitialLength; x--)
             {
                 Vector2D tailPart = new Vector2D(x, headPos.y);
-                newTail.AddLast(tailPart);
+                snakeTiles.AddLast(tailPart);
             }
-            return new Snake(newTail);
+            return new Snake(snakeTiles);
         }
 
         private Vector2D GetNextTile(Direction direction, Vector2D boardBounds)
