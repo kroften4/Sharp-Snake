@@ -50,7 +50,7 @@ namespace Snake
 
         public static Level FromString(string levelPlan, char wallChar)
         {
-            List<string> lines = levelPlan.Split('\n').ToList();
+            List<string> lines = levelPlan.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).ToList();
             int width = lines[0].Length;
             int height = lines.Count();
             HashSet<Vector2D> walls = new HashSet<Vector2D>();

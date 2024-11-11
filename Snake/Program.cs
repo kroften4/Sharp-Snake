@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
+using System.Text.RegularExpressions;
 
 namespace Snake
 {
@@ -11,15 +12,23 @@ namespace Snake
     {
         static void Main(string[] args)
         {
-            Level level = Level.BordersLevel(6, 6);
-            State gameState = State.Create(level, new Vector2D(3, 1));
+            //Level level = Level.BordersLevel(6, 6);
+            //Vector2D snakeStartPos = new Vector2D(
+            //    (int)Math.Floor(level.width * 0.4), 
+            //    level.height / 2
+            //);
+            string levelPlan = Properties.Resources.LevelPlan;
+            Vector2D snakeStartPos = new Vector2D(5, 16);
+            Level level = Level.FromString(levelPlan, '#');
+            State gameState = State.Create(level, snakeStartPos);
+            DrawState(gameState);
+
             List<ConsoleKey> keys = new List<ConsoleKey>();
             const int MaxKeysListSize = 3;
-            DrawState(gameState);
 
             while (true)
             {
-                Thread.Sleep(500);
+                Thread.Sleep(250);
 
                 while (Console.KeyAvailable)
                 {
