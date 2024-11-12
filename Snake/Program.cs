@@ -44,6 +44,8 @@ namespace Snake
                 if (gameState.status != StateStatus.Playing)
                     break;
             }
+            Console.WriteLine("Press any key to exit...");
+            Console.ReadKey(true);
         }
 
         static void DrawState(State gameState)
