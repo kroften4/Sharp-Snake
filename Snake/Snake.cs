@@ -58,8 +58,8 @@ namespace Snake
             LinkedList<Vector2D> snakeTiles = new LinkedList<Vector2D>();
             for (int x = headPos.x; headPos.x - x < InitialLength; x--)
             {
-                Vector2D tailPart = new Vector2D(x, headPos.y);
-                snakeTiles.AddLast(tailPart);
+                Vector2D snakeTile = new Vector2D(x, headPos.y);
+                snakeTiles.AddLast(snakeTile);
             }
             return new Snake(snakeTiles, direction, new List<Vector2D>());
         }
