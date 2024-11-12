@@ -55,6 +55,7 @@ namespace Snake
             const char SnakeChar = '\u2588';
             const ConsoleColor SnakeColor = ConsoleColor.Green;
             const ConsoleColor SnakeHeadColor = ConsoleColor.DarkGreen;
+            const ConsoleColor SnakeEatenColor = ConsoleColor.DarkYellow;
 
             Console.Clear();
 
@@ -83,6 +84,8 @@ namespace Snake
                     Console.SetCursorPosition(snakePart.x * 2 + i, snakePart.y);
                     if (snakePart == gameState.snake.HeadPos)
                         Console.ForegroundColor = SnakeHeadColor;
+                    else if (gameState.snake.eatenTiles.Contains(snakePart))
+                        Console.ForegroundColor = SnakeEatenColor;
                     else
                         Console.ForegroundColor = SnakeColor;
                     Console.WriteLine(SnakeChar);

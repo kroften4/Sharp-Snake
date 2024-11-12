@@ -19,6 +19,7 @@ namespace Snake
     internal class Snake
     {
         public LinkedList<Vector2D> snakeTiles;
+        public List<Vector2D> eatenTiles;
         public Vector2D HeadPos
         {
             get => snakeTiles.First();
@@ -45,18 +46,14 @@ namespace Snake
         }
         public Direction direction;
 
-        public Snake(LinkedList<Vector2D> snakeTiles, Direction direction)
+        public Snake(LinkedList<Vector2D> snakeTiles, Direction direction, List<Vector2D> eatenTiles)
         {
             this.snakeTiles = snakeTiles;
             this.direction = direction;
-        }
-        public Snake(LinkedList<Vector2D> snakeTiles)
-        {
-            this.snakeTiles = snakeTiles;
-            direction = Direction.Right;
+            this.eatenTiles = eatenTiles;
         }
 
-        public static Snake Create(Vector2D headPos)
+        public static Snake Create(Vector2D headPos, Direction direction)
         {
             LinkedList<Vector2D> snakeTiles = new LinkedList<Vector2D>();
             for (int x = headPos.x; headPos.x - x < InitialLength; x--)
@@ -64,7 +61,7 @@ namespace Snake
                 Vector2D tailPart = new Vector2D(x, headPos.y);
                 snakeTiles.AddLast(tailPart);
             }
-            return new Snake(snakeTiles);
+            return new Snake(snakeTiles, direction, new List<Vector2D>());
         }
 
         private Vector2D GetNextTile(Direction direction, Vector2D boardBounds)
@@ -93,11 +90,14 @@ namespace Snake
         private Snake Move(Direction direction, Vector2D boardBounds, bool isEating = false)
         {
             Vector2D newHead = GetNextTile(direction, boardBounds);
-            LinkedList<Vector2D> newTail = new LinkedList<Vector2D>(snakeTiles);
-            newTail.AddFirst(newHead);
+            LinkedList<Vector2D> newSnakeTiles = new LinkedList<Vector2D>(snakeTiles);
+            newSnakeTiles.AddFirst(newHead);
             if (!isEating)
-                newTail.RemoveLast();
-            return new Snake(newTail, direction);
+            {
+                eatenTiles.Remove(newSnakeTiles.Last());
+                newSnakeTiles.RemoveLast();
+            }
+            return new Snake(newSnakeTiles, direction, eatenTiles);
         }
 
         public State Update(State gameState, ref List<ConsoleKey> keys)
@@ -139,7 +139,10 @@ namespace Snake
             Vector2D nextTile = GetNextTile(nextDirection, boardBounds);
             bool isEating = false;
             if (gameState.food.position == nextTile)
+            {
                 isEating = true;
+                eatenTiles.Add(nextTile);
+            }
             Snake newSnake = Move(nextDirection, boardBounds, isEating);
 
             StateStatus newStatus = gameState.status;

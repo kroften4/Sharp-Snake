@@ -30,9 +30,9 @@ namespace Snake
             this.food = food;
         }
 
-        public static State Create(Level level, Vector2D snakeHeadPos)
+        public static State Create(Level level, Vector2D snakeHeadPos, Direction snakeDirection = Direction.Right)
         {
-            Snake snake = Snake.Create(snakeHeadPos);
+            Snake snake = Snake.Create(snakeHeadPos, snakeDirection);
             return new State(StateStatus.Playing, level, snake, Food.Spawn(snake, level));
         }
 
